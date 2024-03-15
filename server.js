@@ -1,19 +1,19 @@
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
 const router = require("./Routes/index");
-const Product = require("./models/productModel");
 app.use(express.json());
 app.use(router);
 
-mongoose.set("strictQuery", false);
+const MONGO_URL = process.env.MONGO_URL;
+const PORT = process.env.PORT || 3000;
+
 mongoose
-  .connect(
-    "mongodb+srv://admin:nodePassword@cluster0.zbnyv56.mongodb.net/Node-API?retryWrites=true&w=majority&appName=Cluster0"
-  )
+  .connect(MONGO_URL)
 
   .then(() => {
-    app.listen(3000, () => console.log(`Node API app is running on port 3000`));
+    app.listen(PORT, () => console.log(`Node API app is running on port ${PORT}`));
     console.log("connected to MonggoDB");
   })
   .catch((err) => {
